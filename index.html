@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Control Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="loader" class="loader-container">
+        <div class="loader"></div>
+        <p style="font-weight: 600; color: var(--texto-sec);">Sincronizando com a base de dados...</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="logo-icon">📊</span>
+            <div>
+                <h1>Dashboard de Desconexão de Rastreadores</h1>
+                <p>Análise operacional em tempo real</p>
+            </div>
+        </div>
+
+        <div class="navbar-status">
+            <div class="status-indicator">
+                <span id="status-dot" class="dot offline"></span>
+                <span id="status-text">Desconectado</span>
+            </div>
+            <div class="refresh-timer">
+                <span class="timer-icon">🔄</span>
+                <span id="timer-text">Atualizando em --s</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-principal">
+        
+        <header class="header-dashboard">
+            <div class="card-kpi">
+                <div class="kpi-info">
+                    <div class="kpi-titulo" id="kpi1-titulo">Carregando...</div>
+                    <div class="kpi-valor" id="kpi1-valor">-</div>
+                </div>
+            </div>
+
+            <div class="card-kpi">
+                <div class="kpi-info">
+                    <div class="kpi-titulo" id="kpi2-titulo">Carregando...</div>
+                    <div class="kpi-valor" id="kpi2-valor">-</div>
+                </div>
+            </div>
+
+            <div class="card-kpi card-kpi-bandeira-bg">
+                <div class="kpi-info">
+                    <div class="kpi-titulo" id="kpi3-titulo">Carregando...</div>
+                    <div class="kpi-valor" id="kpi3-cidade">-</div>
+                    <div class="kpi-subtexto" id="kpi3-valor">Qtd: -</div>
+                </div>
+                <img id="kpi3-flag" class="kpi-bandeira-bg-img escondido" src="" alt="Bandeira">
+            </div>
+        </header>
+
+        <div class="conteudo-grid">
+            
+            <aside class="painel-cidades">
+                <h2 class="titulo-painel">Quantitativo de Cidades Registradas</h2>
+                <div class="lista-cidades" id="lista-cidades-container">
+                    </div>
+            </aside>
+
+            <main class="painel-tabela">
+                <h2 class="titulo-painel">Registros Gerais de Desconexões</h2>
+                <div class="container-tabela">
+                    <table>
+                        <thead>
+                            <tr id="tabela-header">
+                                </tr>
+                        </thead>
+                        <tbody id="tabela-body">
+                            </tbody>
+                    </table>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

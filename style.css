@@ -1,0 +1,350 @@
+:root {
+    --bg-principal: #f8fafc;
+    --bg-card: #ffffff;
+    --texto-prai: #0f172a;
+    --texto-sec: #64748b;
+    --azul-accent: #3b82f6;
+    --azul-escuro: #1e3a8a;
+    --azul-claro: #eff6ff;
+    --borda: #e2e8f0;
+    --sombra: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Força a tela a ficar fixa sem barra de rolagem geral */
+body {
+    background-color: var(--bg-principal);
+    color: var(--texto-prai);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Navbar superior bonita */
+.navbar {
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--borda);
+    padding: 14px 24px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+.navbar h1 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--texto-prai);
+}
+
+.navbar p {
+    font-size: 0.8rem;
+    color: var(--texto-sec);
+}
+
+/* Área útil do Dashboard */
+.container-principal {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 0; /* Essencial para o scroll interno funcionar */
+}
+
+/* Header e Cards KPI */
+.header-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card-kpi {
+    background: var(--bg-card);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 5px;
+    padding: 20px;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--borda);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.card-kpi::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: var(--azul-accent);
+    border-radius: 4px 0 0 4px;
+}
+
+.kpi-info {
+    flex: 1;
+}
+
+.kpi-titulo {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--texto-sec);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.kpi-valor {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--texto-prai);
+}
+
+.kpi-subtexto {
+    font-size: 0.85rem;
+    color: var(--azul-accent);
+    font-weight: 500;
+}
+
+/* Container do Card 3 ajustado para receber o fundo */
+.card-kpi-bandeira-bg {
+    position: relative;
+    overflow: hidden; /* Garante que a bandeira não saia das bordas arredondadas */
+}
+
+/* A mágica do efeito de esmaecimento (Fading/Watermark) */
+.kpi-bandeira-bg-img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60%; /* Ocupa pouco mais da metade do comprimento do card */
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none; /* Evita que o usuário clique ou selecione a imagem */
+    opacity: 0.75; /* Deixa ela bem sutil para não sumir com o texto */
+    
+    /* Cria o degradê da direita (visível) para a esquerda (invisível/esmaecendo) */
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+}
+
+/* Grid Layout Principal (Ocupa o resto da tela) */
+.conteudo-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 20px;
+    min-height: 0; /* Essencial para conter os scrolls internos */
+}
+
+/* Painéis com Scroll Próprio */
+.painel-cidades, .painel-tabela {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--borda);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.titulo-painel {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--texto-prai);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--borda);
+}
+
+/* Containers de scroll individual */
+.lista-cidades, .container-tabela {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* Estilização da tabela com cabeçalho colado (sticky) */
+.container-tabela {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+th {
+    background-color: #f8fafc;
+    color: var(--texto-sec);
+    padding: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--borda);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--borda);
+    color: var(--texto-prai);
+}
+
+tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* Cards da lista de cidades */
+.card-cidade {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+}
+
+.card-cidade:hover {
+    border-color: var(--borda);
+    background: #f1f5f9;
+}
+
+.cidade-img {
+    width: 38px;
+    height: 26px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1px solid var(--borda);
+}
+
+.cidade-nome {
+    flex: 1;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cidade-badge {
+    background: var(--azul-claro);
+    color: var(--azul-accent);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Utilitários */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.loader {
+    border: 4px solid var(--borda);
+    border-top: 4px solid var(--azul-accent);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.escondido { display: none !important; }
+
+/* Custom Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Alinhamento dos elementos na Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Empurra os novos indicadores para o canto direito */
+    align-items: center;
+}
+
+.navbar-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Esfera de Status */
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.dot.online {
+    background-color: #10b981; /* Verde */
+    box-shadow: 0 0 8px #10b981;
+}
+
+.dot.offline {
+    background-color: #ef4444; /* Vermelho */
+    box-shadow: 0 0 8px #ef4444;
+}
+
+/* Texto do Timer */
+.refresh-timer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--texto-sec);
+}
