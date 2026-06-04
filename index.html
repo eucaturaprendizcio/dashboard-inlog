@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Control Center</title>
+    <title>Dashboard Inlog</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>"></head>
 <body>
 
     <div id="loader" class="loader-container">
@@ -20,7 +20,7 @@
         <div class="navbar-brand">
             <span class="logo-icon">📊</span>
             <div>
-                <h1>Dashboard de Desconexão de Rastreadores</h1>
+                <h1>Dashboard Inlog - Desconexão de Rastreadores</h1>
                 <p>Análise operacional em tempo real</p>
             </div>
         </div>
@@ -87,8 +87,20 @@
             </main>
 
         </div>
-    </div>
 
-    <script src="script.js"></script>
+        <section class="secao-alertas-equipamentos">
+            <div class="alerta-header-pesquisa">
+                <h2 class="titulo-painel" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">🚨 Equipamentos em Alerta Crítico</h2>
+                <div class="busca-container">
+                    <span class="busca-icon">🔍</span>
+                    <input type="text" id="input-busca-alertas" placeholder="Buscar por ID ou Cidade...">
+                </div>
+            </div>
+            
+            <div class="grid-alertas-cards" id="destaque-container">
+                </div>
+        </section>
+
+    </div> <script src="script.js"></script>
 </body>
 </html>

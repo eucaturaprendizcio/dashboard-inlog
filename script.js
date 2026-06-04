@@ -1,10 +1,9 @@
 const URL_API_GAS = "https://script.google.com/macros/s/AKfycbzNxVAWISUGCU7rKvtSgDBWvUbPbUD349A1_fl9nrs-TbKrjJtEp-8fCR8EWuNhUYuB/exec";
-const TEMPO_REFRESH_SEGUNDOS = 300; // Altere aqui o tempo de atualização automática
+const TEMPO_REFRESH_SEGUNDOS = 300; 
 
 let segundosRestantes = TEMPO_REFRESH_SEGUNDOS;
 let intervaloTimer = null;
 
-// Formata as strings feias de data que o Google envia
 function formatarDataPlanilha(valor) {
     if (!valor) return "";
     if (typeof valor === "string" && valor.includes("T") && valor.includes("Z")) {
@@ -19,80 +18,92 @@ function formatarDataPlanilha(valor) {
 function obtenerUrlBandeira(nomeOriginal) {
     if (!nomeOriginal) return "img/default.png";
     let nomeTratado = nomeOriginal.toString().toLowerCase();
-    nomeTratado = nomeTratado.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    nomeTratado = nomeTratado.replace(/\s*\((\w+)\)/g, '-$1');
-    nomeTratado = nomeTratado.replace(/\s+/g, '-');
+    nomeTratado = nomeTratado.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
+    nomeTratado = nomeTratado.replace(/\s*\((\w+)\)/g, '-$1'); 
+    nomeTratado = nomeTratado.replace(/\s+/g, '-'); 
     nomeTratado = nomeTratado.replace(/[^a-z0-9\-]/g, '');
     return "img/" + nomeTratado + ".png"; 
 }
 
-// Dispara a carga de dados
 function carregarDadosDashboard() {
-    // Não exibe o loader de tela cheia se for apenas um refresh em background
     const loader = document.getElementById('loader');
-    if (loader.classList.contains('escondido') === false) {
-        // Deixa visível na primeira carga
-    }
-
+    
     fetch(URL_API_GAS)
         .then(res => res.json())
         .then(dados => {
             if(dados.erro) throw new Error(dados.erro);
             
             renderizarDashboard(dados);
-            atualizarStatusConexao(true); // Muda para VERDE
-            resetarEIniciarTimer();       // Reinicia a contagem de 60s
+            atualizarStatusConexao(true); 
+            resetarEIniciarTimer();       
         })
         .catch(erro => {
             console.error("Erro na sincronização: ", erro);
-            atualizarStatusConexao(false); // Muda para VERMELHO
+            atualizarStatusConexao(false); 
         })
         .finally(() => {
-            document.getElementById('loader').classList.add('escondido');
+            if (loader) loader.classList.add('escondido');
         });
 }
 
-// Controla visualmente a bolinha e o texto de conexão
 function atualizarStatusConexao(estaOnline) {
     const dot = document.getElementById('status-dot');
     const text = document.getElementById('status-text');
 
-    if (estaOnline) {
-        dot.className = "dot online";
-        text.innerText = "Conectado";
-        text.style.color = "#10b981";
-    } else {
-        dot.className = "dot offline";
-        text.innerText = "Erro de Conexão";
-        text.style.color = "#ef4444";
+    if (dot && text) {
+        if (estaOnline) {
+            dot.className = "dot online";
+            text.innerText = "Conectado";
+            text.style.color = "#10b981";
+        } else {
+            dot.className = "dot offline";
+            text.innerText = "Erro de Conexão";
+            text.style.color = "#ef4444";
+        }
     }
 }
 
-// Gerencia a contagem regressiva do timer
 function resetarEIniciarTimer() {
-    clearInterval(intervaloTimer); // Limpa loops anteriores para não duplicar
+    clearInterval(intervaloTimer);
     segundosRestantes = TEMPO_REFRESH_SEGUNDOS;
     
     const timerText = document.getElementById('timer-text');
-    timerText.innerText = `Atualizando em ${segundosRestantes}s`;
+    if (timerText) timerText.innerText = `Atualizando em ${segundosRestantes}s`;
 
     intervaloTimer = setInterval(() => {
         segundosRestantes--;
-        timerText.innerText = `Atualizando em ${segundosRestantes}s`;
+        if (timerText) timerText.innerText = `Atualizando em ${segundosRestantes}s`;
 
         if (segundosRestantes <= 0) {
             clearInterval(intervaloTimer);
-            timerText.innerText = "Atualizando...";
-            carregarDadosDashboard(); // Executa o refresh automático
+            if (timerText) timerText.innerText = "Atualizando...";
+            carregarDadosDashboard();
         }
     }, 1000);
 }
 
-// Inicialização da página
 window.addEventListener('DOMContentLoaded', () => {
     carregarDadosDashboard();
 });
 
+// VARIÁVEL GLOBAL PARA GUARDAR OS ALERTAS DA ÚLTIMA CARGA
+let dadosAlertasGlobais = [];
+
+// Inicialização automática assim que o HTML termina de carregar
+window.addEventListener('DOMContentLoaded', () => {
+    carregarDadosDashboard();
+
+    // OUVINTE DO INPUT: Filtra os cards sempre que o usuário digita algo
+    const inputBusca = document.getElementById('input-busca-alertas');
+    if (inputBusca) {
+        inputBusca.addEventListener('input', (e) => {
+            const termoBusca = e.target.value.toLowerCase().trim();
+            filtrarEExibirCards(termoBusca);
+        });
+    }
+});
+
+// Renderização dos dados principais na tela
 function renderizarDashboard(dados) {
     // 1. KPIs do Header
     document.getElementById('kpi1-titulo').innerText = dados.kpi1.titulo;
@@ -106,13 +117,14 @@ function renderizarDashboard(dados) {
     document.getElementById('kpi3-valor').innerText = "Quantidade: " + dados.kpi3.valor;
     if(dados.kpi3.cidade) {
         let img3 = document.getElementById('kpi3-flag');
-        img3.src = obtenerUrlBandeira(dados.kpi3.cidade);
-        img3.classList.remove('escondido');
+        if (img3) {
+            img3.src = obtenerUrlBandeira(dados.kpi3.cidade);
+            img3.classList.remove('escondido');
+        }
     }
 
-    // 2. Ordenação Decrescente da Lista de Cidades
+    // 2. Cidades (A3:B)
     dados.cidades.sort((a, b) => Number(b.quantidade) - Number(a.quantidade));
-
     const listaCidadesContainer = document.getElementById('lista-cidades-container');
     listaCidadesContainer.innerHTML = "";
 
@@ -127,7 +139,7 @@ function renderizarDashboard(dados) {
         listaCidadesContainer.appendChild(card);
     });
 
-    // 3. Tabela Geral
+    // 3. Tabela Geral (D6:H91)
     const tabelaHeader = document.getElementById('tabela-header');
     const tabelaBody = document.getElementById('tabela-body');
     tabelaHeader.innerHTML = "";
@@ -148,4 +160,54 @@ function renderizarDashboard(dados) {
         });
         tabelaBody.appendChild(tr);
     });
+
+    // 4. Salva os alertas na variável global e renderiza inicialmente
+    dadosAlertasGlobais = dados.listaDestaques || (dados.destaqueInferior ? [dados.destaqueInferior] : []);
+    
+    // Reseta o valor do input de busca ao atualizar a página
+    const inputBusca = document.getElementById('input-busca-alertas');
+    if (inputBusca) inputBusca.value = "";
+
+    filtrarEExibirCards(""); // Mostra todos logo na primeira carga
+}
+
+// FUNÇÃO NOVA: Filtra a lista armazenada e renderiza apenas o que bater com a busca
+function filtrarEExibirCards(termo) {
+    const destaqueContainer = document.getElementById('destaque-container');
+    destaqueContainer.innerHTML = "";
+
+    // Filtra comparando com o Identificador ou com a Cidade
+    const itensFiltrados = dadosAlertasGlobais.filter(item => {
+        const id = (item.identificador || "").toString().toLowerCase();
+        const cidade = (item.cidade || "").toString().toLowerCase();
+        return id.includes(termo) || cidade.includes(termo);
+    });
+
+    if (itensFiltrados.length > 0) {
+        itensFiltrados.forEach(item => {
+            const cardAlerta = document.createElement('div');
+            cardAlerta.className = 'card-alerta-individual';
+            
+            cardAlerta.innerHTML = `
+                <div class="alerta-conteudo">
+                    <span class="alerta-tag">🚨 Em Alerta</span>
+                    <h2 class="alerta-id">${item.identificador || "Sem ID"}</h2>
+                    <div class="alerta-detalhes">
+                        <div class="alerta-col">
+                            <span class="alerta-label">Última Conexão</span>
+                            <span class="alerta-valor">${item.dias || 0} dias</span>
+                        </div>
+                        <div class="alerta-col divisor">
+                            <span class="alerta-label">Cidade</span>
+                            <span class="alerta-valor">${item.cidade || "Não informada"}</span>
+                        </div>
+                    </div>
+                </div>
+                <img class="alerta-bandeira-bg" src="${obtenerUrlBandeira(item.cidade)}" onerror="this.src='img/default.png'; this.onerror=null;">
+            `;
+            destaqueContainer.appendChild(cardAlerta);
+        });
+    } else {
+        destaqueContainer.innerHTML = `<p style="color: var(--texto-sec); font-size: 0.9rem; padding: 10px; grid-column: 1/-1;">Nenhum equipamento corresponde à pesquisa.</p>`;
+    }
 }

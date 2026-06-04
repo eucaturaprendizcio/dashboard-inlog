@@ -4,7 +4,6 @@
     --texto-prai: #0f172a;
     --texto-sec: #64748b;
     --azul-accent: #3b82f6;
-    --azul-escuro: #1e3a8a;
     --azul-claro: #eff6ff;
     --borda: #e2e8f0;
     --sombra: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
@@ -18,23 +17,24 @@
     font-family: 'Inter', sans-serif;
 }
 
-/* Força a tela a ficar fixa sem barra de rolagem geral */
+/* Permite rolagem na página inteira se faltar espaço na tela */
 body {
     background-color: var(--bg-principal);
     color: var(--texto-prai);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
-/* Navbar superior bonita */
+/* Navbar Superior */
 .navbar {
     background-color: var(--bg-card);
     border-bottom: 1px solid var(--borda);
     padding: 14px 24px;
     height: 70px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -44,32 +44,47 @@ body {
     gap: 12px;
 }
 
-.logo-icon {
-    font-size: 1.8rem;
+.logo-icon { font-size: 1.8rem; }
+.navbar h1 { font-size: 1.2rem; font-weight: 700; color: var(--texto-prai); }
+.navbar p { font-size: 0.8rem; color: var(--texto-sec); }
+
+.navbar-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
 }
 
-.navbar h1 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--texto-prai);
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
-.navbar p {
-    font-size: 0.8rem;
-    color: var(--texto-sec);
+/* Bolinha de Conexão */
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
 }
+.dot.online { background-color: #10b981; box-shadow: 0 0 8px #10b981; }
+.dot.offline { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; }
+.refresh-timer { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--texto-sec); }
 
-/* Área útil do Dashboard */
+/* Container de Conteúdo */
 .container-principal {
     flex: 1;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    min-height: 0; /* Essencial para o scroll interno funcionar */
 }
 
-/* Header e Cards KPI */
+/* Cards KPI */
 .header-dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -98,66 +113,39 @@ body {
     height: 100%;
     width: 4px;
     background-color: var(--azul-accent);
-    border-radius: 4px 0 0 4px;
 }
 
-.kpi-info {
-    flex: 1;
-}
+.kpi-info { flex: 1; }
+.kpi-titulo { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-sec); margin-bottom: 6px; font-weight: 600; }
+.kpi-valor { font-size: 1.75rem; font-weight: 700; color: var(--texto-prai); }
+.kpi-subtexto { font-size: 0.85rem; color: var(--azul-accent); font-weight: 500; }
 
-.kpi-titulo {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--texto-sec);
-    margin-bottom: 6px;
-    font-weight: 600;
-}
-
-.kpi-valor {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--texto-prai);
-}
-
-.kpi-subtexto {
-    font-size: 0.85rem;
-    color: var(--azul-accent);
-    font-weight: 500;
-}
-
-/* Container do Card 3 ajustado para receber o fundo */
-.card-kpi-bandeira-bg {
-    position: relative;
-    overflow: hidden; /* Garante que a bandeira não saia das bordas arredondadas */
-}
-
-/* A mágica do efeito de esmaecimento (Fading/Watermark) */
+/* Efeito Esmaecido da Bandeira no KPI 3 */
+.card-kpi-bandeira-bg { position: relative; overflow: hidden; }
 .kpi-bandeira-bg-img {
     position: absolute;
     right: 0;
     top: 0;
-    width: 60%; /* Ocupa pouco mais da metade do comprimento do card */
+    width: 60%;
     height: 100%;
     object-fit: cover;
-    pointer-events: none; /* Evita que o usuário clique ou selecione a imagem */
-    opacity: 0.75; /* Deixa ela bem sutil para não sumir com o texto */
-    
-    /* Cria o degradê da direita (visível) para a esquerda (invisível/esmaecendo) */
+    pointer-events: none;
+    opacity: 0.75;
     -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
     mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
 }
 
-/* Grid Layout Principal (Ocupa o resto da tela) */
+/* Grid Central */
 .conteudo-grid {
-    flex: 1;
     display: grid;
     grid-template-columns: 360px 1fr;
     gap: 20px;
-    min-height: 0; /* Essencial para conter os scrolls internos */
 }
 
-/* Painéis com Scroll Próprio */
+@media (max-width: 1024px) {
+    .conteudo-grid { grid-template-columns: 1fr; }
+}
+
 .painel-cidades, .painel-tabela {
     background: var(--bg-card);
     border-radius: var(--radius);
@@ -166,7 +154,7 @@ body {
     border: 1px solid var(--borda);
     display: flex;
     flex-direction: column;
-    min-height: 0;
+    max-height: 550px; /* Limita a altura máxima dos blocos médios */
 }
 
 .titulo-painel {
@@ -178,25 +166,13 @@ body {
     border-bottom: 1px solid var(--borda);
 }
 
-/* Containers de scroll individual */
 .lista-cidades, .container-tabela {
     flex: 1;
     overflow-y: auto;
-    min-height: 0;
 }
 
-/* Estilização da tabela com cabeçalho colado (sticky) */
-.container-tabela {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.85rem;
-}
-
+/* Tabelas e Cabeçalho Fixo (Sticky) */
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
 th {
     background-color: #f8fafc;
     color: var(--texto-sec);
@@ -210,86 +186,107 @@ th {
     top: 0;
     z-index: 10;
 }
+td { padding: 12px; border-bottom: 1px solid var(--borda); color: var(--texto-prai); }
+tr:hover td { background-color: #f8fafc; }
 
-td {
-    padding: 12px;
-    border-bottom: 1px solid var(--borda);
-    color: var(--texto-prai);
-}
+/* Lista de Cidades */
+.card-cidade { display: flex; align-items: center; padding: 10px 12px; background: #f8fafc; border-radius: 8px; margin-bottom: 8px; border: 1px solid transparent; }
+.card-cidade:hover { border-color: var(--borda); background: #f1f5f9; }
+.cidade-img { width: 38px; height: 26px; object-fit: cover; border-radius: 4px; margin-right: 12px; border: 1px solid var(--borda); }
+.cidade-nome { flex: 1; font-size: 0.85rem; font-weight: 600; }
+.cidade-badge { background: var(--azul-claro); color: var(--azul-accent); padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; }
 
-tr:hover td {
-    background-color: #f8fafc;
-}
-
-/* Cards da lista de cidades */
-.card-cidade {
-    display: flex;
-    align-items: center;
-    padding: 10px 12px;
-    background: #f8fafc;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    border: 1px solid transparent;
-}
-
-.card-cidade:hover {
-    border-color: var(--borda);
-    background: #f1f5f9;
-}
-
-.cidade-img {
-    width: 38px;
-    height: 26px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-right: 12px;
+/* Nova Seção de Alertas Gerais (Equipamentos) */
+.secao-alertas-equipamentos {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--sombra);
     border: 1px solid var(--borda);
-}
-
-.cidade-nome {
-    flex: 1;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.cidade-badge {
-    background: var(--azul-claro);
-    color: var(--azul-accent);
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-/* Utilitários */
-.loader-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+    margin-top: 10px;
 }
 
-.loader {
-    border: 4px solid var(--borda);
-    border-top: 4px solid var(--azul-accent);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 0.8s linear infinite;
+.grid-alertas-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* O Card Individual de cada Rastreador da tabela J6:L91 */
+.card-alerta-individual {
+    background: var(--bg-principal);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 115px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
+
+.card-alerta-individual:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+}
+
+.alerta-conteudo {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.alerta-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ef4444;
+    background: #fef2f2;
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+    margin-bottom: 2px;
+}
+
+.alerta-id {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--texto-prai);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.alerta-detalhes { display: flex; gap: 16px; margin-top: 4px; }
+.alerta-col { display: flex; flex-direction: column; }
+.alerta-col.divisor { border-left: 1px solid #cbd5e1; padding-left: 16px; }
+.alerta-label { font-size: 0.7rem; color: var(--texto-sec); font-weight: 500; }
+.alerta-valor { font-size: 0.9rem; font-weight: 700; color: var(--texto-prai); }
+
+/* Decoração da bandeira esmaecendo no comprimento de CADA card */
+.alerta-bandeira-bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 55%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 0.75;
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 100%);
+}
+
+/* Loader */
+.loader-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; display: flex; justify-content: center; align-items: center; z-index: 9999; flex-direction: column; gap: 12px; }
+.loader { border: 4px solid var(--borda); border-top: 4px solid var(--azul-accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 .escondido { display: none !important; }
 
@@ -299,52 +296,54 @@ tr:hover td {
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Alinhamento dos elementos na Navbar */
-.navbar {
+/* Alinhamento do cabeçalho da seção de busca */
+.alerta-header-pesquisa {
     display: flex;
-    justify-content: space-between; /* Empurra os novos indicadores para o canto direito */
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--borda);
+    margin-bottom: 5px;
 }
 
-.navbar-status {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-}
-
-.status-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-/* Esfera de Status */
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-}
-
-.dot.online {
-    background-color: #10b981; /* Verde */
-    box-shadow: 0 0 8px #10b981;
-}
-
-.dot.offline {
-    background-color: #ef4444; /* Vermelho */
-    box-shadow: 0 0 8px #ef4444;
-}
-
-/* Texto do Timer */
-.refresh-timer {
+/* Container do Input */
+.busca-container {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.75rem;
+    width: 280px;
+}
+
+.busca-icon {
+    position: absolute;
+    left: 12px;
+    font-size: 0.9rem;
     color: var(--texto-sec);
+    pointer-events: none;
+}
+
+/* Estilo do Campo de Digitação */
+.busca-container input {
+    width: 100%;
+    padding: 8px 12px 8px 36px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    border: 1px solid var(--borda);
+    background-color: var(--bg-principal);
+    color: var(--texto-prai);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.busca-container input:focus {
+    border-color: var(--azul-accent);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+@media (max-width: 640px) {
+    .alerta-header-pesquisa { flex-direction: column; align-items: flex-start; }
+    .busca-container { width: 100%; }
 }
