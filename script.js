@@ -1,5 +1,5 @@
 const URL_API_GAS = "https://script.google.com/macros/s/AKfycbzNxVAWISUGCU7rKvtSgDBWvUbPbUD349A1_fl9nrs-TbKrjJtEp-8fCR8EWuNhUYuB/exec";
-const TEMPO_REFRESH_SEGUNDOS = 300; 
+const TEMPO_REFRESH_SEGUNDOS = 300;
 
 let segundosRestantes = TEMPO_REFRESH_SEGUNDOS;
 let intervaloTimer = null;
@@ -18,28 +18,28 @@ function formatarDataPlanilha(valor) {
 function obtenerUrlBandeira(nomeOriginal) {
     if (!nomeOriginal) return "img/default.png";
     let nomeTratado = nomeOriginal.toString().toLowerCase();
-    nomeTratado = nomeTratado.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
-    nomeTratado = nomeTratado.replace(/\s*\((\w+)\)/g, '-$1'); 
-    nomeTratado = nomeTratado.replace(/\s+/g, '-'); 
+    nomeTratado = nomeTratado.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    nomeTratado = nomeTratado.replace(/\s*\((\w+)\)/g, '-$1');
+    nomeTratado = nomeTratado.replace(/\s+/g, '-');
     nomeTratado = nomeTratado.replace(/[^a-z0-9\-]/g, '');
-    return "img/" + nomeTratado + ".png"; 
+    return "img/" + nomeTratado + ".png";
 }
 
 function carregarDadosDashboard() {
     const loader = document.getElementById('loader');
-    
+
     fetch(URL_API_GAS)
         .then(res => res.json())
         .then(dados => {
-            if(dados.erro) throw new Error(dados.erro);
-            
+            if (dados.erro) throw new Error(dados.erro);
+
             renderizarDashboard(dados);
-            atualizarStatusConexao(true); 
-            resetarEIniciarTimer();       
+            atualizarStatusConexao(true);
+            resetarEIniciarTimer();
         })
         .catch(erro => {
             console.error("Erro na sincronização: ", erro);
-            atualizarStatusConexao(false); 
+            atualizarStatusConexao(false);
         })
         .finally(() => {
             if (loader) loader.classList.add('escondido');
@@ -66,7 +66,7 @@ function atualizarStatusConexao(estaOnline) {
 function resetarEIniciarTimer() {
     clearInterval(intervaloTimer);
     segundosRestantes = TEMPO_REFRESH_SEGUNDOS;
-    
+
     const timerText = document.getElementById('timer-text');
     if (timerText) timerText.innerText = `Atualizando em ${segundosRestantes}s`;
 
@@ -115,7 +115,7 @@ function renderizarDashboard(dados) {
     document.getElementById('kpi3-titulo').innerText = dados.kpi3.titulo;
     document.getElementById('kpi3-cidade').innerText = dados.kpi3.cidade;
     document.getElementById('kpi3-valor').innerText = "Quantidade: " + dados.kpi3.valor;
-    if(dados.kpi3.cidade) {
+    if (dados.kpi3.cidade) {
         let img3 = document.getElementById('kpi3-flag');
         if (img3) {
             img3.src = obtenerUrlBandeira(dados.kpi3.cidade);
@@ -163,12 +163,41 @@ function renderizarDashboard(dados) {
 
     // 4. Salva os alertas na variável global e renderiza inicialmente
     dadosAlertasGlobais = dados.listaDestaques || (dados.destaqueInferior ? [dados.destaqueInferior] : []);
-    
+
     // Reseta o valor do input de busca ao atualizar a página
     const inputBusca = document.getElementById('input-busca-alertas');
     if (inputBusca) inputBusca.value = "";
 
     filtrarEExibirCards(""); // Mostra todos logo na primeira carga
+
+    // 1. Pega a lista de destaques (J6:L91) que veio da planilha
+let listaItens = dados.listaDestaques || [];
+
+let cidadeMaisCritica = "Nenhuma";
+let maxDiasRegistro = 0;
+
+// 2. Encontra o registro individual com o maior número de dias
+listaItens.forEach(item => {
+    let dias = Number(item.dias) || 0;
+    if (dias > maxDiasRegistro) {
+        maxDiasRegistro = dias;
+        cidadeMaisCritica = item.cidade ? item.cidade.trim() : "Não informada";
+    }
+});
+
+// 3. Joga o resultado desse registro recordista no Card 4 do HTML
+document.getElementById('kpi4-cidade').innerText = cidadeMaisCritica;
+document.getElementById('kpi4-valor').innerText = "Dias: " + maxDiasRegistro;
+document.getElementById('kpi4-identificador').innerText = "Identificador: " + (listaItens.find(item => item.cidade === cidadeMaisCritica)?.identificador || "N/A");
+
+// 4. Aplica a bandeira da cidade desse registro específico no fundo do card
+if (cidadeMaisCritica !== "Nenhuma") {
+    let img4 = document.getElementById('kpi4-flag');
+    if (img4) {
+        img4.src = obtenerUrlBandeira(cidadeMaisCritica);
+        img4.classList.remove('escondido');
+    }
+}
 }
 
 // FUNÇÃO NOVA: Filtra a lista armazenada e renderiza apenas o que bater com a busca
@@ -187,7 +216,7 @@ function filtrarEExibirCards(termo) {
         itensFiltrados.forEach(item => {
             const cardAlerta = document.createElement('div');
             cardAlerta.className = 'card-alerta-individual';
-            
+
             cardAlerta.innerHTML = `
                 <div class="alerta-conteudo">
                     <span class="alerta-tag">🚨 Em Alerta</span>
