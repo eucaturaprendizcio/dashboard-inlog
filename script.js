@@ -175,6 +175,7 @@ let listaItens = dados.listaDestaques || [];
 
 let cidadeMaisCritica = "Nenhuma";
 let maxDiasRegistro = 0;
+let idMaisCritico = "N/A";
 
 // 2. Encontra o registro individual com o maior número de dias
 listaItens.forEach(item => {
@@ -182,13 +183,14 @@ listaItens.forEach(item => {
     if (dias > maxDiasRegistro) {
         maxDiasRegistro = dias;
         cidadeMaisCritica = item.cidade ? item.cidade.trim() : "Não informada";
+        idMaisCritico = item.identificador || "Sem ID";
     }
 });
 
 // 3. Joga o resultado desse registro recordista no Card 4 do HTML
 document.getElementById('kpi4-cidade').innerText = cidadeMaisCritica;
 document.getElementById('kpi4-valor').innerText = "Dias: " + maxDiasRegistro;
-document.getElementById('kpi4-identificador').innerText = "Identificador: " + (listaItens.find(item => item.cidade === cidadeMaisCritica)?.identificador || "N/A");
+document.getElementById('kpi4-identificador').innerText = "Identificador: " + idMaisCritico;
 
 // 4. Aplica a bandeira da cidade desse registro específico no fundo do card
 if (cidadeMaisCritica !== "Nenhuma") {
