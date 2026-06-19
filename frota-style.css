@@ -1,0 +1,64 @@
+:root {
+    --cinza: #94a3b8;
+    --amarelo: #eab308;
+    --verde: #22c55e;
+    --vermelho: #ef4444;
+    --roxo: #a855f7;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body { background-color: var(--bg); min-height: 100vh; overflow-y: auto; }
+
+.navbar { 
+    background: #0f172a; color: white; padding: 1rem 2rem; 
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+}
+
+.btn-voltar { 
+    text-decoration: none; color: white; background: #334155; 
+    padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600;
+}
+
+.container { padding: 20px; max-width: 100%; }
+
+/* Grid 5 KPIs */
+.kpi-grid { 
+    display: grid; 
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 15px; margin-bottom: 25px; 
+}
+
+.card-kpi { 
+    background: var(--card); padding: 20px; border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    border-left: 6px solid #ccc;
+}
+
+.card-kpi small { display: block; text-transform: uppercase; font-weight: 700; color: #64748b; font-size: 0.7rem; margin-bottom: 5px; }
+.card-kpi h2 { font-size: 1.8rem; font-weight: 800; color: #1e293b; }
+
+/* Cores dos Cards */
+.cinza { border-left-color: var(--cinza); }
+.amarelo { border-left-color: var(--amarelo); }
+.verde { border-left-color: var(--verde); }
+.vermelho { border-left-color: var(--vermelho); }
+.roxo { border-left-color: var(--roxo); }
+
+/* Tabela Ocupando a largura */
+.tabela-container { background: var(--card); border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.tabela-wrapper { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+th { background: #f8fafc; padding: 12px; text-align: left; font-size: 0.75rem; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0; }
+td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; color: #334155; }
+tr:hover { background: #f8fafc; }
+
+/* Loader */
+.loader-container { position: fixed; inset: 0; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; }
+.loader { border: 5px solid #f3f3f3; border-top: 5px solid #0f172a; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.hidden { display: none !important; }

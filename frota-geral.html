@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frota Geral - Inlog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="frota-style.css">
+</head>
+<body>
+
+    <div id="loader" class="loader-container">
+        <div class="loader"></div>
+        <p>Sincronizando Frota Geral...</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="icon">🚛</span>
+            <h1>Frota Geral - Inlog</h1>
+        </div>
+        <a href="index.html" class="btn-voltar">Voltar</a>
+    </nav>
+
+    <div class="container">
+        <header class="kpi-grid">
+            <div class="card-kpi cinza">
+                <small id="tit-total">---</small>
+                <h2 id="val-total">-</h2>
+            </div>
+            <div class="card-kpi amarelo">
+                <small id="tit-retidos">---</small>
+                <h2 id="val-retidos">-</h2>
+            </div>
+            <div class="card-kpi verde">
+                <small id="tit-ativos">---</small>
+                <h2 id="val-ativos">-</h2>
+            </div>
+            <div class="card-kpi vermelho">
+                <small id="tit-manutencao">---</small>
+                <h2 id="val-manutencao">-</h2>
+            </div>
+            <div class="card-kpi roxo">
+                <small id="tit-leiloados">---</small>
+                <h2 id="val-leiloados">-</h2>
+            </div>
+        </header>
+
+        <main class="tabela-container">
+            <div class="tabela-wrapper">
+                <table>
+                    <thead><tr id="tab-head"></tr></thead>
+                    <tbody id="tab-body"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="frota-script.js"></script>
+</body>
+</html>

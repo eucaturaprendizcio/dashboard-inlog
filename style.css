@@ -347,3 +347,25 @@ tr:hover td { background-color: #f8fafc; }
     .alerta-header-pesquisa { flex-direction: column; align-items: flex-start; }
     .busca-container { width: 100%; }
 }
+
+/* Botões de Navegação entre Páginas */
+.btn-navegacao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: var(--azul-accent);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+.btn-navegacao:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+.btn-navegacao.cinza { background-color: #64748b; }
