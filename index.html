@@ -122,6 +122,26 @@
 
     </div>
     <script src="script.js"></script>
+    <script>
+        // Bloqueia o clique com o botão direito do mouse
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Bloqueia atalhos de teclado específicos
+        document.addEventListener('keydown', function (event) {
+            // Bloqueia Ctrl+C (Copiar)
+            if (event.ctrlKey && event.key === 'c') {
+                event.preventDefault();
+            }
+            // Bloqueia Ctrl+U (Ver código fonte)
+            if (event.ctrlKey && event.key === 'u') {
+                event.preventDefault();
+            }
+            // Bloqueia Ctrl+Shift+I ou F12 (Tentar abrir o Elementos/F12)
+            if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

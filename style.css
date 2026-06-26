@@ -15,6 +15,10 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Permite rolagem na página inteira se faltar espaço na tela */
@@ -25,6 +29,10 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+}
+
+img {
+    pointer-events: none;
 }
 
 /* Navbar Superior */
@@ -44,9 +52,20 @@ body {
     gap: 12px;
 }
 
-.logo-icon { font-size: 1.8rem; }
-.navbar h1 { font-size: 1.2rem; font-weight: 700; color: var(--texto-prai); }
-.navbar p { font-size: 0.8rem; color: var(--texto-sec); }
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+.navbar h1 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--texto-prai);
+}
+
+.navbar p {
+    font-size: 0.8rem;
+    color: var(--texto-sec);
+}
 
 .navbar-status {
     display: flex;
@@ -71,9 +90,24 @@ body {
     display: inline-block;
     transition: background-color 0.3s ease;
 }
-.dot.online { background-color: #10b981; box-shadow: 0 0 8px #10b981; }
-.dot.offline { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; }
-.refresh-timer { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--texto-sec); }
+
+.dot.online {
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.dot.offline {
+    background-color: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+}
+
+.refresh-timer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--texto-sec);
+}
 
 /* Container de Conteúdo */
 .container-principal {
@@ -115,13 +149,37 @@ body {
     background-color: var(--azul-accent);
 }
 
-.kpi-info { flex: 1; }
-.kpi-titulo { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-sec); margin-bottom: 6px; font-weight: 600; }
-.kpi-valor { font-size: 1.75rem; font-weight: 700; color: var(--texto-prai); }
-.kpi-subtexto { font-size: 0.85rem; color: var(--azul-accent); font-weight: 500; }
+.kpi-info {
+    flex: 1;
+}
+
+.kpi-titulo {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--texto-sec);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.kpi-valor {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--texto-prai);
+}
+
+.kpi-subtexto {
+    font-size: 0.85rem;
+    color: var(--azul-accent);
+    font-weight: 500;
+}
 
 /* Efeito Esmaecido da Bandeira no KPI 3 */
-.card-kpi-bandeira-bg { position: relative; overflow: hidden; }
+.card-kpi-bandeira-bg {
+    position: relative;
+    overflow: hidden;
+}
+
 .kpi-bandeira-bg-img {
     position: absolute;
     right: 0;
@@ -131,8 +189,8 @@ body {
     object-fit: cover;
     pointer-events: none;
     opacity: 0.75;
-    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%);
 }
 
 /* Grid Central */
@@ -143,10 +201,13 @@ body {
 }
 
 @media (max-width: 1024px) {
-    .conteudo-grid { grid-template-columns: 1fr; }
+    .conteudo-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
-.painel-cidades, .painel-tabela {
+.painel-cidades,
+.painel-tabela {
     background: var(--bg-card);
     border-radius: var(--radius);
     padding: 20px;
@@ -154,7 +215,8 @@ body {
     border: 1px solid var(--borda);
     display: flex;
     flex-direction: column;
-    max-height: 550px; /* Limita a altura máxima dos blocos médios */
+    max-height: 550px;
+    /* Limita a altura máxima dos blocos médios */
 }
 
 .titulo-painel {
@@ -166,13 +228,20 @@ body {
     border-bottom: 1px solid var(--borda);
 }
 
-.lista-cidades, .container-tabela {
+.lista-cidades,
+.container-tabela {
     flex: 1;
     overflow-y: auto;
 }
 
 /* Tabelas e Cabeçalho Fixo (Sticky) */
-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
 th {
     background-color: #f8fafc;
     color: var(--texto-sec);
@@ -186,15 +255,56 @@ th {
     top: 0;
     z-index: 10;
 }
-td { padding: 12px; border-bottom: 1px solid var(--borda); color: var(--texto-prai); }
-tr:hover td { background-color: #f8fafc; }
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--borda);
+    color: var(--texto-prai);
+}
+
+tr:hover td {
+    background-color: #f8fafc;
+}
 
 /* Lista de Cidades */
-.card-cidade { display: flex; align-items: center; padding: 10px 12px; background: #f8fafc; border-radius: 8px; margin-bottom: 8px; border: 1px solid transparent; }
-.card-cidade:hover { border-color: var(--borda); background: #f1f5f9; }
-.cidade-img { width: 38px; height: 26px; object-fit: cover; border-radius: 4px; margin-right: 12px; border: 1px solid var(--borda); }
-.cidade-nome { flex: 1; font-size: 0.85rem; font-weight: 600; }
-.cidade-badge { background: var(--azul-claro); color: var(--azul-accent); padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; }
+.card-cidade {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+}
+
+.card-cidade:hover {
+    border-color: var(--borda);
+    background: #f1f5f9;
+}
+
+.cidade-img {
+    width: 38px;
+    height: 26px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1px solid var(--borda);
+}
+
+.cidade-nome {
+    flex: 1;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cidade-badge {
+    background: var(--azul-claro);
+    color: var(--azul-accent);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
 
 /* Nova Seção de Alertas Gerais (Equipamentos) */
 .secao-alertas-equipamentos {
@@ -263,11 +373,33 @@ tr:hover td { background-color: #f8fafc; }
     line-height: 1.2;
 }
 
-.alerta-detalhes { display: flex; gap: 16px; margin-top: 4px; }
-.alerta-col { display: flex; flex-direction: column; }
-.alerta-col.divisor { border-left: 1px solid #cbd5e1; padding-left: 16px; }
-.alerta-label { font-size: 0.7rem; color: var(--texto-sec); font-weight: 500; }
-.alerta-valor { font-size: 0.9rem; font-weight: 700; color: var(--texto-prai); }
+.alerta-detalhes {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+}
+
+.alerta-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.alerta-col.divisor {
+    border-left: 1px solid #cbd5e1;
+    padding-left: 16px;
+}
+
+.alerta-label {
+    font-size: 0.7rem;
+    color: var(--texto-sec);
+    font-weight: 500;
+}
+
+.alerta-valor {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--texto-prai);
+}
 
 /* Decoração da bandeira esmaecendo no comprimento de CADA card */
 .alerta-bandeira-bg {
@@ -279,22 +411,67 @@ tr:hover td { background-color: #f8fafc; }
     object-fit: cover;
     pointer-events: none;
     opacity: 0.75;
-    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to left, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 0) 100%);
 }
 
 /* Loader */
-.loader-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; display: flex; justify-content: center; align-items: center; z-index: 9999; flex-direction: column; gap: 12px; }
-.loader { border: 4px solid var(--borda); border-top: 4px solid var(--azul-accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    flex-direction: column;
+    gap: 12px;
+}
 
-.escondido { display: none !important; }
+.loader {
+    border: 4px solid var(--borda);
+    border-top: 4px solid var(--azul-accent);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.escondido {
+    display: none !important;
+}
 
 /* Custom Scrollbars */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
 
 /* Alinhamento do cabeçalho da seção de busca */
 .alerta-header-pesquisa {
@@ -344,8 +521,14 @@ tr:hover td { background-color: #f8fafc; }
 }
 
 @media (max-width: 640px) {
-    .alerta-header-pesquisa { flex-direction: column; align-items: flex-start; }
-    .busca-container { width: 100%; }
+    .alerta-header-pesquisa {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .busca-container {
+        width: 100%;
+    }
 }
 
 /* Botões de Navegação entre Páginas */
@@ -364,8 +547,12 @@ tr:hover td { background-color: #f8fafc; }
     border: none;
     cursor: pointer;
 }
+
 .btn-navegacao:hover {
     opacity: 0.9;
     transform: translateY(-1px);
 }
-.btn-navegacao.cinza { background-color: #64748b; }
+
+.btn-navegacao.cinza {
+    background-color: #64748b;
+}

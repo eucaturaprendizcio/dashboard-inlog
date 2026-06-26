@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="frota-style.css">
 </head>
+
 <body>
 
     <div id="loader" class="loader-container">
@@ -49,7 +51,9 @@
         <main class="tabela-container">
             <div class="tabela-wrapper">
                 <table>
-                    <thead><tr id="tab-head"></tr></thead>
+                    <thead>
+                        <tr id="tab-head"></tr>
+                    </thead>
                     <tbody id="tab-body"></tbody>
                 </table>
             </div>
@@ -57,5 +61,26 @@
     </div>
 
     <script src="frota-script.js"></script>
+    <script>
+        // Bloqueia o clique com o botão direito do mouse
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Bloqueia atalhos de teclado específicos
+        document.addEventListener('keydown', function (event) {
+            // Bloqueia Ctrl+C (Copiar)
+            if (event.ctrlKey && event.key === 'c') {
+                event.preventDefault();
+            }
+            // Bloqueia Ctrl+U (Ver código fonte)
+            if (event.ctrlKey && event.key === 'u') {
+                event.preventDefault();
+            }
+            // Bloqueia Ctrl+Shift+I ou F12 (Tentar abrir o Elementos/F12)
+            if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
+
 </html>
