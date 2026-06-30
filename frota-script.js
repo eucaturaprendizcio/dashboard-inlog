@@ -21,6 +21,15 @@ function renderDashboard(data) {
     fillKpi('manutencao', k.manutencao);
     fillKpi('leiloados', k.leiloados);
 
+    // Preenche o novo item acoplado se ele existir nos dados e na tela
+    const titDesc = document.getElementById('tit-desconectados');
+    const valDesc = document.getElementById('val-desconectados');
+
+    if (k.desconectados && titDesc && valDesc) {
+        titDesc.innerText = k.desconectados.titulo || 'Desconectados';
+        valDesc.innerText = k.desconectados.valor !== "" ? k.desconectados.valor : '0';
+    }
+
     // Tabela
     const head = document.getElementById('tab-head');
     const body = document.getElementById('tab-body');
@@ -45,7 +54,7 @@ function renderDashboard(data) {
                 if (index === 4) content = formatDataHora(cell);
                 if (index === 8) content = formatDataSimples(cell);
             }
-            
+
             tr += `<td>${content}</td>`;
         });
         tr += '</tr>';
@@ -59,13 +68,13 @@ function fillKpi(id, obj) {
 }
 
 function formatDataHora(val) {
-    if(!val || val === "-") return "-";
+    if (!val || val === "-") return "-";
     const d = new Date(val);
     return isNaN(d) ? val : d.toLocaleString('pt-BR');
 }
 
 function formatDataSimples(val) {
-    if(!val || val === "-") return "-";
+    if (!val || val === "-") return "-";
     const d = new Date(val);
     return isNaN(d) ? val : d.toLocaleDateString('pt-BR');
 }

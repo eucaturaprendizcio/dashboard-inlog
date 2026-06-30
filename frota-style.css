@@ -181,3 +181,29 @@ tr:hover {
 .hidden {
     display: none !important;
 }
+
+/* Sub-indicador interno do card ativo */
+.card-kpi.verde {
+    position: relative;
+    padding-bottom: 35px; /* Abre espaço para o elemento na base do card */
+}
+
+.sub-kpi-container {
+    position: absolute;
+    bottom: 8px;
+    left: 20px;
+    right: 20px;
+    font-size: 0.7rem;
+    color: #475569;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sub-kpi-container strong {
+    color: #b45309;
+    font-weight: 700;
+}
+
